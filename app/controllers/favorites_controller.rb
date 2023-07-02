@@ -10,6 +10,6 @@ class FavoritesController < ApplicationController
     favorite = current_user.favorites.find_by(book_id: params[:book_id])
 
     favorite.destroy
-    redirect_to books_path
+    redirect_to book_path(params[:book_id])
   end
 end
