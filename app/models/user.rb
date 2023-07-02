@@ -7,6 +7,10 @@ class User < ApplicationRecord
   has_many :books,     dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :comments,  dependent: :destroy
+  has_many :active_relationships,  class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'follow_id',   dependent: :destroy
+  has_many :follows, through: :active_relationships, source: :follow
+  has_many :followers, through: :passive_relationships, source: :follower
 
   has_one_attached :profile_image
 
@@ -20,5 +24,17 @@ class User < ApplicationRecord
 
   def favorited_by?(user)
     favites.exists?(user_id: user.id)
+  end
+
+  def follow(user)
+    self.follows << user
+  end
+
+  def unfollow(user)
+    self.follows.destroy(user)
+  end
+
+  def following?(user)
+    self.follows.include?(user)
   end
 end
