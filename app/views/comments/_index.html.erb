@@ -1,0 +1,15 @@
+<% book.comments.each do |comment| %>
+  <td> 
+    <%= image_tag comment.user.get_profile_image, size:"100x100" %>
+    <br>
+    <%= link_to comment.user.name, user_path(user.id) %>
+  </td>
+  <td>
+    <%= comment.comment %>
+  </td>
+  <td>
+    <% if comment.user == current_user %>
+      <%= link_to "destroy", book_comments_path(book, comment.id), method: :delete %>
+    <% end %>
+  </td>
+<% end %>
