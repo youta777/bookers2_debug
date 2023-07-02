@@ -1,19 +1,19 @@
 class CommentsController < ApplicationController
   def create
-    book    = Book.find(params[:book_id])
+    @book   = Book.find(params[:book_id])
+    @user   = current_user
     comment = current_user.comments.new(comment_params)
     
-    comment.book_id = book.id
+    comment.book_id = @book.id
     comment.save
-    redirect_to book_path(book)
   end
 
   def destroy
-    book    = Book.find(params[:book_id])
+    @book   = Book.find(params[:book_id])
+    @user   = current_user
     comment = Comment.find_by(book_id: params[:book_id])
 
     comment.destroy
-    redirect_back(fallback_location: books_path)
   end
 
   private
