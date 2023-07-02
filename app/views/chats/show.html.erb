@@ -1,18 +1,38 @@
-<h1 class= 'ml-5'><%= @user.name %>さんとのチャット</h1>
+<div class="container mt-5">
+  <h2><%= @user.name %>さんとのチャット</h2>
 
-<div class="message ml-5" style="width: 400px;">
-  <% @chats.each do |chat| %>
-    <% if chat.user_id == current_user.id %>
-      <%# こっちが送ったメッセージ %>
-      <p style="text-align: right;"><%= chat.message %></p>
-    <% else %>
-      <%# 相手が送ったメッセージ %>
-      <p style="text-align: left;"><%= chat.message %></p>
+  <hr>
+
+  <table class="message table">
+    <thead>
+      <tr>
+        <th>投稿者名</th>
+        <th>メッセージ</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @chats.each do |chat| %>
+        <tr>
+          <td><%= chat.user.name %></td>
+          <td><%= chat.message %></td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+
+  <div class="errors">
+    <%= render "layouts/errors", obj: @chat %>
+  </div>
+
+  <div class="row mt-5">
+    <%= form_with model: @chat, data: { remote: true } do |f| %>
+      <%= f.text_field :message %>
+      <%= f.hidden_field :room_id %>
+      <%= f.submit "送信" %>
     <% end %>
-  <% end %>
-</div>
+  </div>
 
-<%= form_with model: @chat do |f| %>
-  <%= f.text_field :message, class:"ml-5" %>
-  <%= f.hidden_field :room_id %>
-<% end %>
+  <%= link_to 'User一覧へ戻る', users_path , class:"btn btn-secondary mt-3" %>
+</div>

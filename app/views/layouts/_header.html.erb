@@ -28,6 +28,9 @@
               <i class="fas fa-sign-out-alt"></i> log out
             <% end %>
           </li>
+          <li>
+            <%= render 'layouts/search' %>
+          </li>
         <% else %>
           <li>
             <%= link_to root_path,class: 'nav-link text-light' do %>
