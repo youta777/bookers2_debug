@@ -1,0 +1,18 @@
+<h1 class= 'ml-5'><%= @user.name %>さんとのチャット</h1>
+
+<div class="message ml-5" style="width: 400px;">
+  <% @chats.each do |chat| %>
+    <% if chat.user_id == current_user.id %>
+      <%# こっちが送ったメッセージ %>
+      <p style="text-align: right;"><%= chat.message %></p>
+    <% else %>
+      <%# 相手が送ったメッセージ %>
+      <p style="text-align: left;"><%= chat.message %></p>
+    <% end %>
+  <% end %>
+</div>
+
+<%= form_with model: @chat do |f| %>
+  <%= f.text_field :message, class:"ml-5" %>
+  <%= f.hidden_field :room_id %>
+<% end %>
