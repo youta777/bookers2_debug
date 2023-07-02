@@ -11,4 +11,17 @@ class Book < ApplicationRecord
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
+
+  def self.search_for(content, method)
+    case method
+    when "perfect" # 完全一致
+      where(title: content)
+    when "forward" # 前方一致
+      where('title LIKE ?', content + '%')
+    when "backward" # 後方一致
+      where('title LIKE ?', '%' + content)
+    when "partial" # 部分一致
+      where('title LIKE ?', '%' + content + '%')
+    end
+  end
 end

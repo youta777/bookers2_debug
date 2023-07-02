@@ -37,4 +37,17 @@ class User < ApplicationRecord
   def following?(user)
     self.follows.include?(user)
   end
+
+  def self.search_for(content, method)
+    case method
+    when "perfect" # 完全一致
+      where(name: content)
+    when "forward" # 前方一致
+      where('title LIKE ?', content + '%')
+    when "backward" # 後方一致
+      where('title LIKE ?', '%' + content)
+    when "partial" # 部分一致
+      where('title LIKE ?', '%' + content + '%')
+    end
+  end
 end
