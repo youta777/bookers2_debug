@@ -1,13 +1,9 @@
 <% if book.favorited_by?(current_user) %>
-  <td>
-    <%= link_to book_favorites_path(book), method: :delete, remote: true, data: { "turbolinks": false } do %>
-      <i class="fas fa-heart" aria-hidden="true" style="color: #dc143c;"></i><%= book.favorites.count %>
+    <%= link_to book_favorites_path(book), method: :delete, remote: true do %>
+      ♥<%= book.favorites.count %>
     <% end %>
-  </td>
-<% else %>
-  <td>
-    <%= link_to book_favorites_path(book), method: :post, remote: true, data: { "turbolinks" => false } do %>
-      <i class="fas fa-heart" aria-hidden="true"></i><%= book.favorites.count %>
+  <% else %>
+    <%= link_to book_favorites_path(book), method: :post, remote: true do %>
+      ♡<%= book.favorites.count %>
     <% end %>
-  </td>
 <% end %>
